@@ -1,6 +1,6 @@
 # MAIN
 uvicorn==0.23.2
-fastapi==0.103.1
+fastapi==0.115.0
 
 # UTILS
 click                       >=8.1.7, <9
@@ -14,3 +14,4 @@ ujson                       ==5.10.0
 psycopg2-binary             >=2.9.7, <3
 sqlalchemy                  >=1.4.49, <2
 sqlalchemy-utils            >=0.41.1, <1
+alembic                     >=1.11.2, <2

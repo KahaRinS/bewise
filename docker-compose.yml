@@ -3,14 +3,7 @@ services:
     build: .
     ports:
       - "8000:8000"
-    environment:
-      - APP_HOST=${APP_HOST}
-      - APP_PORT=${APP_PORT}
-      - POSTGRES_HOST=db
-      - POSTGRES_PORT=${POSTGRES_PORT}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - DB_NAME=${DB_NAME}
+    env_file: .env
     depends_on:
       - postgres
     networks:

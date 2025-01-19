@@ -3,6 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from settings import AppConfig
 
+from .api.applications import router as applications_router
+
 
 def get_apps_router():
     router = APIRouter()
@@ -17,6 +19,7 @@ def get_application() -> FastAPI:
         connections=[],
     )
     application.include_router(get_apps_router())
+    application.include_router(applications_router)
 
     application.add_middleware(
         CORSMiddleware,

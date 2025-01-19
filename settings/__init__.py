@@ -1,2 +1,2 @@
 from .app import AppConfig
-from .db import DBConfig
+from .db import DbConfig
