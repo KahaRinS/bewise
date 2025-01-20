@@ -7,7 +7,7 @@ services:
     depends_on:
       - postgres
     networks:
-      - db_net
+      - bewise_net
 
   postgres:
     image: postgres:16-alpine
@@ -17,11 +17,28 @@ services:
     ports:
       - ${POSTGRES_PORTS}
     networks:
-      - db_net
+      - bewise_net
+
+  kafka:
+    image: 'bitnami/kafka:latest'
+    container_name: kafka
+    hostname: kafka
+    ports:
+      - '9092:9092'
+    networks:
+      - bewise_net
+    environment:
+      KAFKA_CFG_NODE_ID: 0
+      KAFKA_CFG_PROCESS_ROLES: controller,broker
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: 0@kafka:29093
+      KAFKA_CFG_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENERS: 'PLAINTEXT://kafka:29092,CONTROLLER://kafka:29093,PLAINTEXT_HOST://0.0.0.0:9092'
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
 
 volumes:
   postgres_data:
 
 networks:
-  db_net:
+  bewise_net:
     driver: bridge

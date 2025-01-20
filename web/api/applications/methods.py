@@ -21,6 +21,4 @@ async def add_application(
     application_info: schemas.AddApplicationRequest,
     service: ApplicationService = Depends(get_application_service),
 ):
-    result = await service.add_application(application_info.model_dump())
-    app_data = schemas.AddApplicationResponse.model_validate(result)
-    return app_data
+    return await service.add_application(application_info.model_dump())

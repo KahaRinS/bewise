@@ -6,7 +6,7 @@ from alembic import context
 from alembic.autogenerate import rewriter
 from alembic.operations import ops
 from alembic.script import ScriptDirectory
-from app.models import base
+from app.models.base import Base
 from settings import DbConfig
 
 CREATE_VERSION_TRIGGER_KEY = 'CREATE_VERSION_TRIGGER_KEY'
@@ -122,4 +122,4 @@ def run_alembic(sqlalchemy_url: str, target_metadata: MetaData):
         run_migrations_online(target_metadata)
 
 
-run_alembic(sqlalchemy_url=DbConfig.CONNECTION_SETTINGS['dsn'], target_metadata=base.meta)
+run_alembic(sqlalchemy_url=DbConfig.CONNECTION_SETTINGS['dsn'].replace("+asyncpg", ""), target_metadata=Base.metadata)
