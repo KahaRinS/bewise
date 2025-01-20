@@ -1,18 +1,22 @@
-import typing
+import uuid
+from datetime import datetime
 
-import sqlalchemy as sa
-import sqlalchemy_utils as sau
-from sqlalchemy.dialects import postgresql
-
-meta = sa.MetaData(schema='bewise')
-now_at_utc = sa.text("(now() at time zone 'utc')")
-generate_uuid = sa.text('uuid_generate_v4()')
-
-common_fields = ['id', 'created', 'updated', 'archived']
+from sqlalchemy import func
+from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.orm import (DeclarativeBase, Mapped, declared_attr,
+                            mapped_column)
 
 
-def generate_base_fields() -> typing.Tuple[sa.Column, ...]:
-    return (
-        sa.Column('id', postgresql.UUID, unique=True, index=True, server_default=generate_uuid, nullable=False),
-        sa.Column('created_at', sau.ArrowType, server_default=now_at_utc, nullable=False),
+class Base(DeclarativeBase):
+    __abstract__ = True
+
+    @declared_attr.directive
+    def __tablename__(self) -> str:
+        return f'{self.__name__.lower()}s'  # Noqa: WPS237
+
+    id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid4,
     )
+    created_at: Mapped[datetime] = mapped_column(default=func.now(), nullable=False)

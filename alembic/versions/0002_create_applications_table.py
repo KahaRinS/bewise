@@ -1,7 +1,7 @@
 """create applications table
 
-Revision ID: 0001
-Revises: 
+Revision ID: 0002
+Revises: 0001
 Create Date: 2025-01-17 15:00:46.552664
 
 """
@@ -14,8 +14,8 @@ from sqlalchemy.dialects import postgresql
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision: str = '0001'
-down_revision: Union[str, None] = None
+revision: str = '0002'
+down_revision: Union[str, None] = '0001'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 

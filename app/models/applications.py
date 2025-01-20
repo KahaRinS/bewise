@@ -1,11 +1,11 @@
 import sqlalchemy as sa
 
-from .base import generate_base_fields, meta
+from .base import Base
 
-applications = sa.Table(
-    'applications',
-    meta,
-    *generate_base_fields(),
-    sa.Column('user_name', sa.String(100), nullable=False),
-    sa.Column('description', sa.String(300), nullable=False),  # Noqa: WPS432
-)
+
+class Applications(Base):
+    __tablename__ = 'applications'
+    __table_args__ = {'schema': 'bewise'}
+
+    user_name = sa.Column(sa.String(100), nullable=False)
+    description = sa.Column(sa.String(300), nullable=True)
